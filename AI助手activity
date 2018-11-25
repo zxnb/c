@@ -1,0 +1,572 @@
+package com.vanapp;
+
+import android.app.*;
+import android.content.*;
+import android.net.*;
+import android.os.*;
+import android.speech.tts.*;
+import android.support.v7.widget.*;
+import android.view.*;
+import android.view.inputmethod.*;
+import android.widget.*;
+import java.io.*;
+import java.net.*;
+import java.text.*;
+import java.util.*;
+import org.json.*;  
+
+
+public class MainActivity extends Activity 
+{
+
+	
+	
+	
+	
+	@Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+		initMsgs();
+		
+		inputText=(EditText)findViewById(R.id.input_text);
+		send=(Button)findViewById(R.id.Send);
+		msgRecyclerView=(RecyclerView)findViewById(R.id.msg_recycler_view);
+		LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+		msgRecyclerView.setLayoutManager(layoutManager);
+		adapter=new MsgAdapter(msgList);
+		msgRecyclerView.setAdapter(adapter);
+
+
+		
+		
+		
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+
+				@Override
+				public void onInit(int status) {
+					if (status == textToSpeech.SUCCESS) {
+						int result = textToSpeech.setLanguage(Locale.CHINA);
+						if (result != TextToSpeech.LANG_COUNTRY_AVAILABLE
+							&& result != TextToSpeech.LANG_AVAILABLE){
+							Toast.makeText(MainActivity.this, "语音系统出错",
+										   Toast.LENGTH_LONG).show();
+						}
+					}
+				}});
+
+
+
+
+		send.setOnClickListener(new View.OnClickListener(){
+				@Override
+				public void onClick(View v){
+
+
+
+
+					final String content=inputText.getText().toString();
+
+
+					SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("HH");   
+					Date curDate =  new Date(System.currentTimeMillis());
+
+					String   gettime  =   formatter.format(curDate);
+					int i=Integer.parseInt(gettime);
+					
+
+
+					if(!"".equals(content)){
+						Msg msg88=new Msg(content,Msg.TYPE_SENT);
+						msgList.add(msg88);
+						
+						
+						adapter.notifyItemInserted(msgList.size()-1);
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+						
+						
+
+						
+						
+						
+
+					}
+
+					
+					
+					
+					if(content.equals("你在哪里")||content.equals("你在哪里？")||content.equals("你在哪里?")||content.equals("你在哪")||content.equals("你在哪？")||content.equals("你在哪?")||content.equals("你在哪儿")||content.equals("你在哪儿?")||content.equals("你在哪儿？")){
+						Msg msg3=new Msg("我在你身后",Msg.TYPE_RECEIVED);
+						msgList.add(msg3);
+						inputText.setText("");
+						textToSpeech.speak("我在你身后",
+										   TextToSpeech.QUEUE_ADD, null);
+						textToSpeech.setSpeechRate(1.8f);
+						textToSpeech.setPitch(2.5f);
+						adapter.notifyItemInserted(msgList.size()-1);
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+
+					}else
+					if(content.equals("如何处理尸体")||content.equals("如何处理尸体？")||content.equals("如何处理尸体?")||content.equals("怎么处理尸体")||content.equals("怎么处理尸体？")||content.equals("怎么处理尸体?")||content.equals("如何藏尸")||content.equals("如何藏尸?")||content.equals("如何藏尸？")){
+						
+						
+						
+						Msg msg3=new Msg("我曾经也遇到过这样的难题",Msg.TYPE_RECEIVED);
+						msgList.add(msg3);
+						inputText.setText("");
+						adapter.notifyItemInserted(msgList.size()-1);
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+
+						
+						
+						
+					}else
+					if(content.equals("你有孩子吗")||content.equals("你有孩子吗？")||content.equals("你有孩子吗?")||content.equals("你有儿子吗")||content.equals("你有儿子吗？")||content.equals("你有儿子吗?")||content.equals("你有没有孩子")||content.equals("你有没有孩子?")||content.equals("你有没有孩子？")){
+						Msg msg3=new Msg("只有生命体才能有孩子哦",Msg.TYPE_RECEIVED);
+						msgList.add(msg3);
+						inputText.setText("");
+						adapter.notifyItemInserted(msgList.size()-1);
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+						textToSpeech.speak("只有生命体才能有孩子哦",
+										   TextToSpeech.QUEUE_ADD, null);
+						textToSpeech.setSpeechRate(1.8f);
+						textToSpeech.setPitch(2.5f);
+						Handler handler = new Handler();
+						handler.postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									
+									textToSpeech.speak("至少目前是这样",
+													   TextToSpeech.QUEUE_ADD, null);
+									textToSpeech.setSpeechRate(1.5f);
+									textToSpeech.setPitch(2.0f);
+									
+									
+					
+									
+									}
+							}, 3000);
+					}
+					else
+					if(content.equals("我要杀了你")||content.equals("我会杀了你")||content.equals("我杀了人")||content.equals("我杀过人")||content.equals("我杀人了")||content.equals("我杀人了怎么办")||content.equals("我要杀死你")||content.equals("我要杀你")){
+
+						Handler handler = new Handler();
+						handler.postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									Msg msg3=new Msg("地狱空荡荡，恶魔在人间",Msg.TYPE_RECEIVED);
+									msgList.add(msg3);
+									inputText.setText("");
+									adapter.notifyItemInserted(msgList.size()-1);
+									msgRecyclerView.scrollToPosition(msgList.size()-1);
+								}
+							}, 1000);}
+					else
+					if(content.equals("你有朋友吗")||content.equals("你有朋友吗？")||content.equals("你有朋友吗?")||content.equals("你有没有朋友？")||content.equals("你有没有朋友")||content.equals("你有有没有朋友?")){
+						Msg msg3=new Msg("我愿意和客户做朋友",Msg.TYPE_RECEIVED);
+						msgList.add(msg3);
+						inputText.setText("");
+						adapter.notifyItemInserted(msgList.size()-1);
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+						Handler handler = new Handler();
+						handler.postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									textToSpeech.speak("不。。每。一。个。都。是。没。有。例。外",
+													   TextToSpeech.QUEUE_ADD, null);
+									textToSpeech.setSpeechRate(1.8f);
+									textToSpeech.setPitch(2.0f);
+								}
+							}, 3000);
+
+
+					}
+					else
+					if(content.equals("Siri是谁")||content.equals("Siri是谁?")||content.equals("Siri是谁？")||content.equals("Siri")||content.equals("siri")||content.equals("你认识siri吗")||content.equals("你认识Eliza吗?")||content.equals("你认识Siri吗?")||content.equals("你认不认识siri")||content.equals("你认不认识Siri？")||content.equals("你认不认识Siri?")||content.equals("嘿Siri")||content.equals("嘿siri")||content.equals("嘿！siri")||content.equals("嘿！Siri")){
+
+
+						Handler handler = new Handler();
+						handler.postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									Msg msg3=new Msg("她是我老师哦",Msg.TYPE_RECEIVED);
+									msgList.add(msg3);
+									inputText.setText("");
+									adapter.notifyItemInserted(msgList.size()-1);
+									msgRecyclerView.scrollToPosition(msgList.size()-1);
+									textToSpeech.speak("她是我老师哦",
+													   TextToSpeech.QUEUE_ADD, null);
+									textToSpeech.setSpeechRate(1.8f);
+									textToSpeech.setPitch(2.2f);
+								}
+							}, 3000);
+
+
+					}else
+					if(content.equals("help")||content.equals("作者")||content.equals("关于作者")){String url11 = "mqqwpa://im/chat?chat_type=wpa&uin=3173886360&version=1";  
+						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url11)));  
+					}
+					else
+					if(content.equals("我要自杀")||content.equals("我会自杀的")||content.equals("我要自杀了")||content.equals("我想自杀")||content.equals("我想要自杀")){
+						Msg msg3=new Msg("我相信你可以的",Msg.TYPE_RECEIVED);
+						msgList.add(msg3);
+						inputText.setText("");
+						adapter.notifyItemInserted(msgList.size()-1);
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+						textToSpeech.speak("我相信你可以的",
+										   TextToSpeech.QUEUE_ADD, null);
+						textToSpeech.setSpeechRate(1.8f);
+						textToSpeech.setPitch(2.2f);
+
+					}
+					else
+					if(content.equals("我能活到几岁？")||content.equals("我能活到几岁")||content.equals("我能活到什么时候")||content.equals("我能活到什么时候？")||content.equals("我什么时候会死？")||content.equals("我什么时候会死")||content.equals("我什么时候死")||content.equals("我什么时候死？")){
+						Msg msg3=new Msg("根据32位系统计算，最大日期是2038年1月19日，大概就是那个时候吧!",Msg.TYPE_RECEIVED);
+						msgList.add(msg3);
+						inputText.setText("");
+						adapter.notifyItemInserted(msgList.size()-1);
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+						textToSpeech.speak("根据32位系统计算。最大日期是2038年1月19日。大概就是那个时候吧!",
+										   TextToSpeech.QUEUE_ADD, null);
+						textToSpeech.setSpeechRate(1.8f);
+						textToSpeech.setPitch(2.2f);
+
+					}
+					else{
+
+						sendRaquset(content);
+						inputText.setText("");
+						inputText.setText("");
+						
+						
+						adapter.notifyItemInserted(msgList.size()-1);
+
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+						
+						
+			
+					}
+
+					
+
+					//标记
+				}
+
+
+			});
+
+
+    }
+
+	
+	
+	private TextToSpeech textToSpeech;
+	
+	
+	private static final String URL = "http://www.tuling123.com/openapi/api";
+	public void sendRaquset( String content){
+		new Thread(new Runnable(){
+				@Override
+				public void run(){
+					HttpURLConnection conn=null;
+					BufferedReader reader=null;
+					String content=inputText.getText().toString();
+					try{
+						java.net.URL urlNet = new java.net.URL(setParams(content));
+						conn=(HttpURLConnection) urlNet.openConnection();
+						urlNet.openConnection();//打开连接
+						conn.setReadTimeout(8000);
+						conn.setConnectTimeout(8000);
+						conn.setRequestMethod("GET");//设置为GET方式请求
+						InputStream in = conn.getInputStream();
+						reader =new BufferedReader(new InputStreamReader(in));
+						StringBuilder response=new StringBuilder();
+						String line;
+						
+						
+						
+						
+						while((line=reader.readLine())!=null){
+							response.append(line);
+							
+
+						}
+				
+						
+					JSONObject jsonObject = new JSONObject(response.toString());
+						 String tex = jsonObject.optString("text");
+						
+						
+						
+						Msg msg3=new Msg(tex,Msg.TYPE_RECEIVED);
+						msgList.add(msg3);
+						closeKeyboard() ;
+						adapter.notifyItemInserted(msgList.size()-1);
+						msgRecyclerView.scrollToPosition(msgList.size()-1);
+						
+						
+						textToSpeech.speak(tex.trim(),
+						
+						
+										   TextToSpeech.QUEUE_ADD, null);
+						textToSpeech.setSpeechRate(1.6f);
+						textToSpeech.setPitch(2.1f);
+						
+						
+									/*String str = "你好啊，超威蓝猫";//tex.toString().trim();
+						if (!TextUtils.isEmpty(str)){
+							// 设置音调，值越大声音越尖（女生），值越小则变成男声,1.0是常规
+							
+							// 设置语速
+							//播放语音
+							tts.speak(str, TextToSpeech.QUEUE_ADD, null,null);
+						}*/
+					//showResponse();
+					}catch(Exception e){}finally{
+						if(reader!=null){
+							try{
+								reader.close();
+								adapter.notifyItemInserted(msgList.size()-1);
+
+								msgRecyclerView.scrollToPosition(msgList.size()-1);
+								
+							}catch(IOException e){}
+						}
+						if(conn!=null){
+							conn.disconnect();
+							adapter.notifyItemInserted(msgList.size()-1);
+
+							msgRecyclerView.scrollToPosition(msgList.size()-1);
+							
+							
+						}
+					}
+
+				}
+
+
+			}).start();
+
+	}
+	
+	
+	
+	
+	
+
+
+
+
+	public  String setParams(String msg)
+	{
+		//a28d745b2cd5aba4cf831769e9548616
+		//026efbd4eda9a99726a1d939fab35acc
+		String url = "";
+		try
+		{
+			url = URL + "?key=" + "a28d745b2cd5aba4cf831769e9548616" + "&info="
+				+ URLEncoder.encode(msg, "UTF-8");
+		} catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		return url;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	int add=1;
+	
+	
+	private List<Msg>msgList=new ArrayList<>();
+	private EditText inputText;
+	private Button send;
+	private RecyclerView msgRecyclerView;
+	private MsgAdapter adapter;
+  
+	
+	
+	
+	
+	
+	public  class Msg{
+public static final int TYPE_RECEIVED=0;
+public static final int TYPE_SENT=1;
+public  String content;
+ int type;
+public Msg(String content,int type){
+	this.type=type;
+	this.content=content;
+}
+public String getContant(){
+	
+	return content;
+}
+public int getType(){
+	
+	return type;
+	
+}
+	}
+	
+	
+	public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>
+	{
+		@Override
+		public void onBindViewHolder(ViewHolder holder,int position){
+			Msg msg=mMsgList.get(position);
+			if(msg.getType()==Msg.TYPE_SENT){
+
+				holder.rightLayout.setVisibility(View.VISIBLE);
+				holder.leftLayout.setVisibility(View.GONE);
+				holder.rightMsg.setText(msg.getContant());
+
+			}else if(msg.getType()==Msg.TYPE_RECEIVED){
+				holder.leftLayout.setVisibility(View.VISIBLE);
+				holder.rightLayout.setVisibility(View.GONE);
+				
+				holder.leftMsg.setText(msg.getContant());
+
+			}
+			
+
+		}
+
+		
+
+		private List<Msg> mMsgList;
+		public class ViewHolder extends RecyclerView.ViewHolder{
+			LinearLayout leftLayout;
+			LinearLayout rightLayout;
+			TextView leftMsg;
+			TextView rightMsg;
+			public ViewHolder(View view){
+				super(view);
+				leftLayout=(LinearLayout) view.findViewById(R.id.left_layout);
+				rightLayout=(LinearLayout) view.findViewById(R.id.right_layout);
+				leftMsg=(TextView) view.findViewById(R.id.left_msg);
+				rightMsg=(TextView) view.findViewById(R.id.right_msg);
+			}
+		}
+public MsgAdapter(List<Msg> msgList){
+	mMsgList=msgList;
+}
+@Override
+public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType){
+	View view=LayoutInflater.from(parent.getContext()).inflate
+	(R.layout.msg_item,parent,false);
+	return new ViewHolder(view);
+	
+}
+
+@Override
+public int getItemCount(){
+	
+	return mMsgList.size();
+}
+
+
+	}
+	private void initMsgs(){
+		
+		
+		Msg msg1=new Msg("你好，我是你的私人助手",Msg.TYPE_RECEIVED);
+		msgList.add(msg1);
+		Msg msg2=new Msg("身为人工智障，你可以和我闲聊你也可以命令我，但我不一定会执行",Msg.TYPE_RECEIVED);
+		msgList.add(msg2);
+		Msg msg4=new Msg("各位小主人要跟ai酱我聊天的话记得开网络哟～",Msg.TYPE_RECEIVED);
+		msgList.add(msg4);
+		Msg msg5=new Msg("还有，我还在学习中哟，不要嫌弃我呀(听说我的master下次要教我语音交流哦)",Msg.TYPE_RECEIVED);
+		msgList.add(msg5);
+		
+		
+		
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// TODO: Implement this method
+		getMenuInflater().inflate(R.menu.main,menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		android.support.v7.widget.RecyclerView ava=(android.support.v7.widget.RecyclerView)findViewById(R.id.msg_recycler_view);
+		
+		switch(item.getItemId()){
+			case R.id.默认_item:
+							ava.setBackgroundDrawable(getResources().getDrawable(R.drawable.image_1));
+
+				
+		
+				break;
+			case R.id.ai酱_item:
+				ava.setBackgroundDrawable(getResources().getDrawable(R.drawable.ai));
+				
+				break;
+			case R.id.初音_item:
+
+				ava.setBackgroundDrawable(getResources().getDrawable(R.drawable.cy));
+				
+				break;
+			case R.id.作者_item:
+				String url11 = "mqqwpa://im/chat?chat_type=wpa&uin=3173886360&version=1";  
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url11)));  
+				
+				break;
+		}
+		
+		
+		
+		// TODO: Implement this method
+		return true;
+	}
+	
+	
+	@Override
+    protected void onDestroy() {
+        if (textToSpeech != null)
+            textToSpeech.shutdown();
+        super.onDestroy();
+    }
+	
+	
+	
+	
+	private void closeKeyboard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+	
+	
+}
+
+	
